@@ -4,6 +4,7 @@ import Clipboard from 'expo-clipboard';
 import { useFonts } from 'expo-font';
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import AppLoading from 'expo-app-loading';
 
 const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const numbers = '0123456789';
@@ -11,10 +12,6 @@ const specialCharacters = '!@#$%&*?-_';
 let plainText;
 
 export default function App() {
-  let [fontsLoaded] = useFonts({
-    'UbuntuCondensed': require('./assets/fonts/UbuntuCondensed-Regular.ttf'),
-  });
-
   const [password,setPassword] = useState('');
   const [size,setSize] = useState(5);
   const [checkedNumbers,checkNumbers] = useState(false);
@@ -53,7 +50,11 @@ export default function App() {
     );
   }
 
-  if(!fontsLoaded) return null;
+  let [fontsLoaded] = useFonts({
+    'UbuntuCondensed': require('./assets/fonts/UbuntuCondensed-Regular.ttf'),
+  });
+
+  if(!fontsLoaded) return <AppLoading />;
 
   return (
     <SafeAreaView style={styles.container}>
