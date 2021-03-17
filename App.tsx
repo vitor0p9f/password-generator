@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Alert} from 'react-native';
-import Slider from '@react-native-community/slider';
-import { useFonts } from 'expo-font';
 import CheckBox from '@react-native-community/checkbox';
+import Slider from '@react-native-community/slider';
 import Clipboard from 'expo-clipboard';
+import { useFonts } from 'expo-font';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 
 const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const numbers = '0123456789';
@@ -43,14 +43,21 @@ export default function App() {
 
   function copyToClipboard(){
     Clipboard.setString(password);
-    Alert.alert('Success','Your password has been copied');
+    
+    ToastAndroid.showWithGravityAndOffset(
+      'Your password has been copied',
+      ToastAndroid.SHORT,
+      ToastAndroid.BOTTOM,
+      0,
+      100,
+    );
   }
 
   if(!fontsLoaded) return null;
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.logo} source={require('./assets/locked.png')}/>
+      <Text style={styles.logo}>PA**WORD{'\n'}GENERATOR</Text>
 
       {password !== '' &&(
         <View style={styles.passwordArea}>
@@ -58,15 +65,15 @@ export default function App() {
         </View>
       )}
       
-      <Text style={styles.label}>Size: {size} characters</Text>
+      <Text style={styles.sizeLabel}>Size: {size} characters</Text>
       <View style={styles.slideBarContainer}>
         <Slider
           style={styles.slider}
           value={size}
           minimumValue={5}
           maximumValue={20}
-          minimumTrackTintColor="#355070"
-          maximumTrackTintColor="#020202"
+          minimumTrackTintColor="#004C54"
+          maximumTrackTintColor="#1E272C"
           onValueChange={value => setSize(Number(value.toFixed(0)))}
         />
       </View>
@@ -89,12 +96,13 @@ export default function App() {
             onValueChange={value => checkSpecialCharacters(value)}
             tintColors={{true:'#ffffff', false:'#ffffff'}}
           />
+          
           <Text style={styles.checkboxLabel}>Special characters</Text>
         </View>
       </View>
 
       <TouchableOpacity style={styles.button} onPress={generatePassword}>
-        <Text style={styles.buttonText}>Generate</Text>
+        <Text style={styles.buttonLabel}>Generate</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -103,47 +111,60 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#355070',
+    backgroundColor: '#004C54',
     alignItems: 'center',
     justifyContent: 'center'
   },
   logo:{
-    height: 90,
-    width: 90,
-    marginBottom: 60
+    textAlign: 'center',
+    color: '#F8F8FF',
+    fontSize: 40,
+    marginBottom: 50,
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: {width: 2, height: 4},
+    textShadowRadius: 2
   },
   passwordArea:{
     width: 300,
-    height: 50,
-    backgroundColor: '#646464',
-    borderColor: '#ffffff',
-    borderWidth: 2,
+    height: 45,
+    backgroundColor: '#F8F8FF',
     borderRadius: 10,
+    paddingVertical: 2,
     paddingHorizontal: 15,
-    marginBottom: 30,
+    marginBottom: 50,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,  
+    elevation: 4,
   },
   passwordLabel:{
     fontSize: 26,
-    color: '#ffffff',
+    color: '#1E272C',
     fontFamily: 'UbuntuCondensed',
-  },
-  copy:{
-    marginBottom: 30
   },
   slideBarContainer:{
     alignItems: 'center',
     marginBottom: 50,
-    backgroundColor: '#ffffff',
-    borderRadius: 5
+    backgroundColor: '#F8F8FF',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,  
+    elevation: 5,
   },
-  label:{
-    fontSize: 26,
-    color: '#ffffff',
+  sizeLabel:{
+    fontSize: 22,
+    color: '#F8F8FF',
     letterSpacing: 1.5,
     fontFamily: 'UbuntuCondensed',
-    marginBottom: 20
+    marginBottom: 20,
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: {width: 2, height: 3},
+    textShadowRadius: 2
   },
   slider: {
     width: 300, 
@@ -151,31 +172,45 @@ const styles = StyleSheet.create({
   },
   checkboxesContainer:{
     width: 270,
-    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   checkboxContainer:{
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: 200
   },
   checkbox:{
     marginRight: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,  
+    elevation: 5,
   },
   checkboxLabel:{
-    fontSize: 20,
-    color: '#ffffff',
+    fontSize: 22,
+    color: '#F8F8FF',
     letterSpacing: 1.5,
-    fontFamily: 'UbuntuCondensed'
+    fontFamily: 'UbuntuCondensed',
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: {width: 2, height: 3},
+    textShadowRadius: 2
   },
   button:{
-    backgroundColor: '#ffffff',
-    marginTop: 45,
+    backgroundColor: '#F8F8FF',
+    marginTop: 50,
     borderRadius: 10,
-    padding: 6
+    padding: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,  
+    elevation: 5,
   },
-  buttonText:{
+  buttonLabel:{
     letterSpacing: 1.5,
     fontFamily: 'UbuntuCondensed',
     fontSize: 28,
-    color: '#646464'
+    color: '#1E272C'
   }
 });

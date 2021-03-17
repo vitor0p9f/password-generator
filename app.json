@@ -4,11 +4,12 @@
     "slug": "password-generator",
     "version": "1.0.0",
     "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#355070"
+      "backgroundColor": "#004C54"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
