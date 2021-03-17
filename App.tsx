@@ -4,14 +4,41 @@ import Slider from '@react-native-community/slider';
 import { useFonts } from 'expo-font';
 import CheckBox from '@react-native-community/checkbox';
 
+const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const numbers = '0123456789';
+const specialCharacters = '!@#$%&*?-_';
+let plainText;
+
 export default function App() {
   let [fontsLoaded] = useFonts({
     'UbuntuCondensed': require('./assets/fonts/UbuntuCondensed-Regular.ttf'),
   });
 
+  const [password,setPassword] = useState('');
   const [size,setSize] = useState(5);
   const [checkedNumbers,checkNumbers] = useState(false);
   const [checkedSpecialCharacters,checkSpecialCharacters] = useState(false);
+
+  function generatePassword(){
+    if(checkedNumbers && checkedSpecialCharacters){
+      plainText = letters + numbers + specialCharacters;
+    }else if(checkedNumbers && !checkedSpecialCharacters){
+      plainText = letters + numbers;
+    }else if(checkedSpecialCharacters && !checkedNumbers){
+      plainText = letters + specialCharacters;
+    }else{
+      plainText = letters;
+    }
+
+    let generatedPassword = '';
+    let n = plainText.length;
+
+    for(let i=0; i<size; i++){
+      generatedPassword += plainText.charAt(Math.floor(Math.random() * n));
+    }
+
+    setPassword(generatedPassword);
+  }
 
   if(!fontsLoaded) return null;
 
@@ -19,19 +46,22 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require('./assets/locked.png')}/>
 
-      <TextInput style={styles.input}/>
-
-      <Image style={styles.copy} source={require('./assets/copy.png')}/>
-
+      {password !== '' &&(
+        <TextInput 
+          style={styles.input}
+          value={password}
+        />
+      )}
+      
+      <Text style={styles.label}>Size: {size} characters</Text>
       <View style={styles.slideBarContainer}>
-        <Text style={styles.label}>Size: {size} characters</Text>
         <Slider
-          style={{width: 300, height: 40}}
+          style={styles.slider}
+          value={size}
           minimumValue={5}
           maximumValue={20}
-          minimumTrackTintColor="#f5f5f5"
-          maximumTrackTintColor="#DDDDDD"
-          value={size}
+          minimumTrackTintColor="#355070"
+          maximumTrackTintColor="#020202"
           onValueChange={value => setSize(Number(value.toFixed(0)))}
         />
       </View>
@@ -58,7 +88,7 @@ export default function App() {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={generatePassword}>
         <Text style={styles.buttonText}>Generate</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -74,34 +104,40 @@ const styles = StyleSheet.create({
   logo:{
     height: 90,
     width: 90,
-    marginVertical: 50
+    marginVertical: 60
   },
   input:{
     width: 300,
     height: 50,
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#646464',
     borderColor: '#f5f5f5',
-    borderWidth: 5,
+    borderWidth: 2,
     borderRadius: 10,
-    borderStyle: 'dashed',
     paddingHorizontal: 15,
     fontSize: 26,
     color: '#f5f5f5',
-    marginBottom: 30
+    marginBottom: 30,
+    textAlign: 'center',
   },
   copy:{
     marginBottom: 30
   },
   slideBarContainer:{
     alignItems: 'center',
-    height: 10,
-    marginBottom: 90,
+    marginBottom: 50,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 5
   },
   label:{
     fontSize: 26,
     color: '#f5f5f5',
     letterSpacing: 1.5,
-    fontFamily: 'UbuntuCondensed'
+    fontFamily: 'UbuntuCondensed',
+    marginBottom: 20
+  },
+  slider: {
+    width: 300, 
+    height: 40, 
   },
   checkboxesContainer:{
     width: 270,
