@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image , TextInput, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Alert} from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useFonts } from 'expo-font';
 import CheckBox from '@react-native-community/checkbox';
+import Clipboard from 'expo-clipboard';
 
 const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const numbers = '0123456789';
@@ -40,6 +41,11 @@ export default function App() {
     setPassword(generatedPassword);
   }
 
+  function copyToClipboard(){
+    Clipboard.setString(password);
+    Alert.alert('Success','Your password has been copied');
+  }
+
   if(!fontsLoaded) return null;
 
   return (
@@ -47,10 +53,9 @@ export default function App() {
       <Image style={styles.logo} source={require('./assets/locked.png')}/>
 
       {password !== '' &&(
-        <TextInput 
-          style={styles.input}
-          value={password}
-        />
+        <View style={styles.passwordArea}>
+          <Text style={styles.passwordLabel} onLongPress={copyToClipboard}>{password}</Text>
+        </View>
       )}
       
       <Text style={styles.label}>Size: {size} characters</Text>
@@ -72,7 +77,7 @@ export default function App() {
             value={checkedNumbers}
             style={styles.checkbox}
             onValueChange={value => checkNumbers(value)}
-            tintColors={{true:'#f5f5f5', false:'#f5f5f5'}}
+            tintColors={{true:'#ffffff', false:'#ffffff'}}
           />
           <Text style={styles.checkboxLabel}>Numbers</Text>
         </View>
@@ -82,7 +87,7 @@ export default function App() {
             value={checkedSpecialCharacters}
             style={styles.checkbox}
             onValueChange={value => checkSpecialCharacters(value)}
-            tintColors={{true:'#f5f5f5', false:'#f5f5f5'}}
+            tintColors={{true:'#ffffff', false:'#ffffff'}}
           />
           <Text style={styles.checkboxLabel}>Special characters</Text>
         </View>
@@ -100,24 +105,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#355070',
     alignItems: 'center',
+    justifyContent: 'center'
   },
   logo:{
     height: 90,
     width: 90,
-    marginVertical: 60
+    marginBottom: 60
   },
-  input:{
+  passwordArea:{
     width: 300,
     height: 50,
     backgroundColor: '#646464',
-    borderColor: '#f5f5f5',
+    borderColor: '#ffffff',
     borderWidth: 2,
     borderRadius: 10,
     paddingHorizontal: 15,
-    fontSize: 26,
-    color: '#f5f5f5',
     marginBottom: 30,
-    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  passwordLabel:{
+    fontSize: 26,
+    color: '#ffffff',
+    fontFamily: 'UbuntuCondensed',
   },
   copy:{
     marginBottom: 30
@@ -125,12 +135,12 @@ const styles = StyleSheet.create({
   slideBarContainer:{
     alignItems: 'center',
     marginBottom: 50,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#ffffff',
     borderRadius: 5
   },
   label:{
     fontSize: 26,
-    color: '#f5f5f5',
+    color: '#ffffff',
     letterSpacing: 1.5,
     fontFamily: 'UbuntuCondensed',
     marginBottom: 20
@@ -152,19 +162,20 @@ const styles = StyleSheet.create({
   },
   checkboxLabel:{
     fontSize: 20,
-    color: '#f5f5f5',
+    color: '#ffffff',
     letterSpacing: 1.5,
     fontFamily: 'UbuntuCondensed'
   },
   button:{
-    backgroundColor: '#f5f5f5',
-    padding: 5,
+    backgroundColor: '#ffffff',
     marginTop: 45,
-    borderRadius: 10
+    borderRadius: 10,
+    padding: 6
   },
   buttonText:{
     letterSpacing: 1.5,
     fontFamily: 'UbuntuCondensed',
-    fontSize: 30
+    fontSize: 28,
+    color: '#646464'
   }
 });
