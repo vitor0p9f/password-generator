@@ -4,8 +4,8 @@ This project was developed to assist in the generation of new passwords
 
 ## Technologies Used
 
-* <span class="iconify" data-icon="vscode-icons:file-type-typescript-official" data-inline="false"></span> Typescript
-* <span class="iconify" data-icon="vscode-icons:file-type-light-expo" data-inline="false"></span> Expo
+* <img src="https://api.iconify.design/logos:typescript-icon.svg" /> Typescript
+* <img src="https://api.iconify.design/vscode-icons:file-type-light-expo.svg" /> Expo
 
 ## Operation
 
