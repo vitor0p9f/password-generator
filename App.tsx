@@ -52,6 +52,7 @@ export default function App() {
 
   let [fontsLoaded] = useFonts({
     'UbuntuCondensed': require('./assets/fonts/UbuntuCondensed-Regular.ttf'),
+    'HammersmithOne': require('./assets/fonts/HammersmithOne-Regular.ttf')
   });
 
   if(!fontsLoaded) return <AppLoading />;
@@ -123,7 +124,9 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: {width: 2, height: 4},
-    textShadowRadius: 2
+    textShadowRadius: 2,
+    fontFamily: 'HammersmithOne',
+    letterSpacing: 1.5,
   },
   passwordArea:{
     width: 300,
@@ -131,7 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8FF',
     borderRadius: 10,
     paddingVertical: 2,
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     marginBottom: 50,
     justifyContent: 'center',
     alignItems: 'center',
@@ -142,9 +145,10 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   passwordLabel:{
-    fontSize: 26,
+    fontSize: 24,
     color: '#1E272C',
     fontFamily: 'UbuntuCondensed',
+    letterSpacing: 1.5,
   },
   slideBarContainer:{
     alignItems: 'center',
