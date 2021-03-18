@@ -1,12 +1,10 @@
 # Password Generator
 
-## Objective
-
 This project was developed to assist in the generation of new passwords
 
 ## Technologies Used
 
-..* Typescript
-..* Expo
+* Typescript
+* Expo
 
 ## operation
